@@ -24,44 +24,39 @@
 		stdout-path = &uart0;
 	};
 
-	vbat: fixedregulator0 {
-		compatible = "regulator-fixed";
-		regulator-name = "vbat";
-		regulator-min-microvolt = <5000000>;
-		regulator-max-microvolt = <5000000>;
-		regulator-boot-on;
-	};
+//	vbat: fixedregulator0 {
+//		compatible = "regulator-fixed";
+//		regulator-name = "vbat";
+//		regulator-min-microvolt = <5000000>;
+//		regulator-max-microvolt = <5000000>;
+//		regulator-boot-on;
+//	};
 
-	lis3_reg: fixedregulator1 {
-		compatible = "regulator-fixed";
-		regulator-name = "lis3_reg";
-		regulator-boot-on;
-	};
+//	lis3_reg: fixedregulator1 {
+//		compatible = "regulator-fixed";
+//		regulator-name = "lis3_reg";
+//		regulator-boot-on;
+//	};
 
-
-	/* TPS79501 */
-	v1_8d_reg: fixedregulator-v1_8d {
-		compatible = "regulator-fixed";
-		regulator-name = "v1_8d";
-		vin-supply = <&vbat>;
-		regulator-min-microvolt = <1800000>;
-		regulator-max-microvolt = <1800000>;
-	};
 
 	/* TPS79501 */
-	v3_3d_reg: fixedregulator-v3_3d {
-		compatible = "regulator-fixed";
-		regulator-name = "v3_3d";
-		vin-supply = <&vbat>;
-		regulator-min-microvolt = <3300000>;
-		regulator-max-microvolt = <3300000>;
-	};
+//	v1_8d_reg: fixedregulator-v1_8d {
+//		compatible = "regulator-fixed";
+//		regulator-name = "v1_8d";
+//		vin-supply = <&vbat>;
+//		regulator-min-microvolt = <1800000>;
+//		regulator-max-microvolt = <1800000>;
+//	};
 
-	
+	/* TPS79501 */
+//	v3_3d_reg: fixedregulator-v3_3d {
+//		compatible = "regulator-fixed";
+//		regulator-name = "v3_3d";
+//		vin-supply = <&vbat>;
+//		regulator-min-microvolt = <3300000>;
+//		regulator-max-microvolt = <3300000>;
+//	};
 
-	
-
-	
 };
 
 &am33xx_pinmux {
@@ -74,12 +69,12 @@
 		>;
 	};
 
-	i2c1_pins: pinmux_i2c1_pins {
-		pinctrl-single,pins = <
-			AM33XX_IOPAD(0x958, PIN_INPUT_PULLUP | MUX_MODE2)	/* spi0_d1.i2c1_sda */
-			AM33XX_IOPAD(0x95c, PIN_INPUT_PULLUP | MUX_MODE2)	/* spi0_cs0.i2c1_scl */
-		>;
-	};
+//	i2c1_pins: pinmux_i2c1_pins {
+//		pinctrl-single,pins = <
+//			AM33XX_IOPAD(0x958, PIN_INPUT_PULLUP | MUX_MODE2)	/* spi0_d1.i2c1_sda */
+//			AM33XX_IOPAD(0x95c, PIN_INPUT_PULLUP | MUX_MODE2)	/* spi0_cs0.i2c1_scl */
+//		>;
+//	};
 
 	uart0_pins: pinmux_uart0_pins {
 		pinctrl-single,pins = <
@@ -88,14 +83,14 @@
 		>;
 	};
 
-	uart1_pins: pinmux_uart1_pins {
-		pinctrl-single,pins = <
-			AM33XX_IOPAD(0x978, PIN_INPUT | MUX_MODE0)		/* uart1_ctsn.uart1_ctsn */
-			AM33XX_IOPAD(0x97C, PIN_OUTPUT_PULLDOWN | MUX_MODE0)	/* uart1_rtsn.uart1_rtsn */
-			AM33XX_IOPAD(0x980, PIN_INPUT_PULLUP | MUX_MODE0)	/* uart1_rxd.uart1_rxd */
-			AM33XX_IOPAD(0x984, PIN_OUTPUT_PULLDOWN | MUX_MODE0)	/* uart1_txd.uart1_txd */
-		>;
-	};
+//	uart1_pins: pinmux_uart1_pins {
+//		pinctrl-single,pins = <
+//			AM33XX_IOPAD(0x978, PIN_INPUT | MUX_MODE0)		/* uart1_ctsn.uart1_ctsn */
+//			AM33XX_IOPAD(0x97C, PIN_OUTPUT_PULLDOWN | MUX_MODE0)	/* uart1_rtsn.uart1_rtsn */
+//			AM33XX_IOPAD(0x980, PIN_INPUT_PULLUP | MUX_MODE0)	/* uart1_rxd.uart1_rxd */
+//			AM33XX_IOPAD(0x984, PIN_OUTPUT_PULLDOWN | MUX_MODE0)	/* uart1_txd.uart1_txd */
+//		>;
+//	};
 
 	clkout2_pin: pinmux_clkout2_pin {
 		pinctrl-single,pins = <
@@ -267,57 +262,57 @@
 	};
 };
 
-&usb {
-	status = "okay";
-};
+//&usb {
+//	status = "okay";
+//};
 
-&usb_ctrl_mod {
-	status = "okay";
-};
+//&usb_ctrl_mod {
+//	status = "okay";
+//};
 
-&usb0_phy {
-	status = "okay";
-};
+//&usb0_phy {
+//	status = "okay";
+//};
 
-&usb1_phy {
-	status = "okay";
-};
+//&usb1_phy {
+//	status = "okay";
+//};
 
-&usb0 {
-	status = "okay";
-};
+//&usb0 {
+//	status = "okay";
+//};
 
-&usb1 {
-	status = "okay";
-	dr_mode = "host";
-};
+//&usb1 {
+//	status = "okay";
+//	dr_mode = "host";
+//};
 
 &cppi41dma  {
 	status = "okay";
 };
 
-&i2c1 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c1_pins>;
-
-	status = "okay";
-	clock-frequency = <100000>;
-};
+//&i2c1 {
+//	pinctrl-names = "default";
+//	pinctrl-0 = <&i2c1_pins>;
+//
+//	status = "okay";
+//	clock-frequency = <100000>;
+//};
 
 
 &elm {
 	status = "okay";
 };
 
-&epwmss0 {
-	status = "okay";
-
-	ecap0: ecap@48300100 {
-		status = "okay";
-		pinctrl-names = "default";
-		pinctrl-0 = <&ecap0_pins>;
-	};
-};
+//&epwmss0 {
+//	status = "okay";
+//
+//	ecap0: ecap@48300100 {
+//		status = "okay";
+//		pinctrl-names = "default";
+//		pinctrl-0 = <&ecap0_pins>;
+//	};
+//};
 
 &gpmc {
 	status = "okay";
@@ -406,23 +401,23 @@
 
 
 
-&mcasp1 {
-	#sound-dai-cells = <0>;
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&mcasp1_pins>;
-	pinctrl-1 = <&mcasp1_pins_sleep>;
-
-	status = "okay";
-
-	op-mode = <0>;          /* MCASP_IIS_MODE */
-	tdm-slots = <2>;
-	/* 4 serializers */
-	serial-dir = <  /* 0: INACTIVE, 1: TX, 2: RX */
-		0 0 1 2
-	>;
-	tx-num-evt = <32>;
-	rx-num-evt = <32>;
-};
+//&mcasp1 {
+//	#sound-dai-cells = <0>;
+//	pinctrl-names = "default", "sleep";
+//	pinctrl-0 = <&mcasp1_pins>;
+//	pinctrl-1 = <&mcasp1_pins_sleep>;
+//
+//	status = "okay";
+//
+//	op-mode = <0>;          /* MCASP_IIS_MODE */
+//	tdm-slots = <2>;
+//	/* 4 serializers */
+//	serial-dir = <  /* 0: INACTIVE, 1: TX, 2: RX */
+//		0 0 1 2
+//	>;
+//	tx-num-evt = <32>;
+//	rx-num-evt = <32>;
+//};
 
 
 &mac {
@@ -444,10 +439,10 @@
 	phy-mode = "rgmii-txid";
 };
 
-&cpsw_emac1 {
-	phy_id = <&davinci_mdio>, <1>;
-	phy-mode = "rgmii-txid";
-};
+//&cpsw_emac1 {
+//	phy_id = <&davinci_mdio>, <1>;
+//	phy-mode = "rgmii-txid";
+//};
 
 &tscadc {
 	status = "okay";
@@ -505,22 +500,20 @@
 	status = "okay";
 };
 
-&dcan1 {
-	status = "disabled";	/* Enable only if Profile 1 is selected */
-	pinctrl-names = "default";
-	pinctrl-0 = <&dcan1_pins_default>;
+//&dcan1 {
+//	status = "disabled";	/* Enable only if Profile 1 is selected */
+//	pinctrl-names = "default";
+//	pinctrl-0 = <&dcan1_pins_default>;
+//};
+
+&rtc {
+	clocks = <&clk_32768_ck>, <&l4_per_clkctrl AM3_CLKDIV32K_CLKCTRL 0>;
+	clock-names = "ext-clk", "int-clk";
 };
 
-/*
-*&rtc {
-*	clocks = <&clk_32768_ck>, <&l4_per_clkctrl AM3_CLKDIV32K_CLKCTRL 0>;
-*	clock-names = "ext-clk", "int-clk";
-*};
-*/
-
-&wkup_m3_ipc {
-	ti,scale-data-fw = "am335x-evm-scale-data.bin";
-};
+//&wkup_m3_ipc {
+//	ti,scale-data-fw = "am335x-evm-scale-data.bin";
+//};
 
 &sgx {
 	status = "okay";
