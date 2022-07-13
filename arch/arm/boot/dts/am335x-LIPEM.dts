@@ -11,8 +11,8 @@
 #include <dt-bindings/interrupt-controller/irq.h>
 
 / {
-	model = "Linsys AM335x LIP-EM";
-	compatible = "ti,am33xx";
+	model = "LINSYS AM335x LIP-EM";
+	compatible = "linsys,lipem", "ti,am33xx";
 
 	
 	memory@80000000 {
@@ -22,41 +22,28 @@
 
 	chosen {
 		stdout-path = &uart0;
+		tick-timer = &timer2;
 	};
 
-//	vbat: fixedregulator0 {
-//		compatible = "regulator-fixed";
-//		regulator-name = "vbat";
-//		regulator-min-microvolt = <5000000>;
-//		regulator-max-microvolt = <5000000>;
-//		regulator-boot-on;
-//	};
+	cpus {
+		cpu@0 {
+			status = "okay";
+			/* Always on regulator */
+		};
+	};
 
-//	lis3_reg: fixedregulator1 {
-//		compatible = "regulator-fixed";
-//		regulator-name = "lis3_reg";
-//		regulator-boot-on;
-//	};
-
-
-	/* TPS79501 */
-//	v1_8d_reg: fixedregulator-v1_8d {
-//		compatible = "regulator-fixed";
-//		regulator-name = "v1_8d";
-//		vin-supply = <&vbat>;
-//		regulator-min-microvolt = <1800000>;
-//		regulator-max-microvolt = <1800000>;
-//	};
-
-	/* TPS79501 */
-//	v3_3d_reg: fixedregulator-v3_3d {
-//		compatible = "regulator-fixed";
-//		regulator-name = "v3_3d";
-//		vin-supply = <&vbat>;
-//		regulator-min-microvolt = <3300000>;
-//		regulator-max-microvolt = <3300000>;
-//	};
-
+	sound {
+		compatible = "ti,da830-evm-audio";
+		ti,model = "AM335x-EVM";
+		ti,audio-codec = <&tlv320aic3106>;
+		ti,mcasp-controller = <&mcasp0>;
+		ti,codec-clock-rate = <12000000>;
+		ti,audio-routing =
+			    "Headphone Jack",       "HPLOUT",
+			    "Headphone Jack",       "HPROUT",
+			    "LINE1L",               "Line In",
+			    "LINE1R",               "Line In";
+	};
 };
 
 &am33xx_pinmux {
@@ -69,13 +56,6 @@
 		>;
 	};
 
-//	i2c1_pins: pinmux_i2c1_pins {
-//		pinctrl-single,pins = <
-//			AM33XX_IOPAD(0x958, PIN_INPUT_PULLUP | MUX_MODE2)	/* spi0_d1.i2c1_sda */
-//			AM33XX_IOPAD(0x95c, PIN_INPUT_PULLUP | MUX_MODE2)	/* spi0_cs0.i2c1_scl */
-//		>;
-//	};
-
 	uart0_pins: pinmux_uart0_pins {
 		pinctrl-single,pins = <
 			AM33XX_IOPAD(0x970, PIN_INPUT_PULLUP | MUX_MODE0)	/* uart0_rxd.uart0_rxd */
@@ -83,20 +63,12 @@
 		>;
 	};
 
-//	uart1_pins: pinmux_uart1_pins {
+
+//	clkout2_pin: pinmux_clkout2_pin {
 //		pinctrl-single,pins = <
-//			AM33XX_IOPAD(0x978, PIN_INPUT | MUX_MODE0)		/* uart1_ctsn.uart1_ctsn */
-//			AM33XX_IOPAD(0x97C, PIN_OUTPUT_PULLDOWN | MUX_MODE0)	/* uart1_rtsn.uart1_rtsn */
-//			AM33XX_IOPAD(0x980, PIN_INPUT_PULLUP | MUX_MODE0)	/* uart1_rxd.uart1_rxd */
-//			AM33XX_IOPAD(0x984, PIN_OUTPUT_PULLDOWN | MUX_MODE0)	/* uart1_txd.uart1_txd */
+//			AM33XX_IOPAD(0x9b4, PIN_OUTPUT_PULLDOWN | MUX_MODE3)	/* xdma_event_intr1.clkout2 */
 //		>;
 //	};
-
-	clkout2_pin: pinmux_clkout2_pin {
-		pinctrl-single,pins = <
-			AM33XX_IOPAD(0x9b4, PIN_OUTPUT_PULLDOWN | MUX_MODE3)	/* xdma_event_intr1.clkout2 */
-		>;
-	};
 
 	nandflash_pins_s0: nandflash_pins_s0 {
 		pinctrl-single,pins = <
@@ -118,11 +90,6 @@
 		>;
 	};
 
-	ecap0_pins: backlight_pins {
-		pinctrl-single,pins = <
-			AM33XX_IOPAD(0x964, MUX_MODE0)	/* eCAP0_in_PWM0_out.eCAP0_in_PWM0_out */
-		>;
-	};
 
 	cpsw_default: cpsw_default {
 		pinctrl-single,pins = <
@@ -176,40 +143,6 @@
 		>;
 	};
 
-	mmc1_pins: pinmux_mmc1_pins {
-		pinctrl-single,pins = <
-			AM33XX_IOPAD(0x960, PIN_INPUT | MUX_MODE7)		/* spi0_cs1.gpio0_6 */
-			AM33XX_IOPAD(0x8fc, PIN_INPUT_PULLUP | MUX_MODE0)	/* mmc0_dat0.mmc0_dat0 */
-			AM33XX_IOPAD(0x8f8, PIN_INPUT_PULLUP | MUX_MODE0)	/* mmc0_dat1.mmc0_dat1 */
-			AM33XX_IOPAD(0x8f4, PIN_INPUT_PULLUP | MUX_MODE0)	/* mmc0_dat2.mmc0_dat2 */
-			AM33XX_IOPAD(0x8f0, PIN_INPUT_PULLUP | MUX_MODE0)	/* mmc0_dat3.mmc0_dat3 */
-			AM33XX_IOPAD(0x904, PIN_INPUT_PULLUP | MUX_MODE0)	/* mmc0_cmd.mmc0_cmd */
-			AM33XX_IOPAD(0x900, PIN_INPUT_PULLUP | MUX_MODE0)	/* mmc0_clk.mmc0_clk */
-			AM33XX_IOPAD(0x9a0, PIN_INPUT | MUX_MODE4)		/* mcasp0_aclkr.mmc0_sdwp */
-		>;
-	};
-
-	mmc3_pins: pinmux_mmc3_pins {
-		pinctrl-single,pins = <
-			AM33XX_IOPAD(0x844, PIN_INPUT_PULLUP | MUX_MODE3)	/* gpmc_a1.mmc2_dat0, INPUT_PULLUP | MODE3 */
-			AM33XX_IOPAD(0x848, PIN_INPUT_PULLUP | MUX_MODE3)	/* gpmc_a2.mmc2_dat1, INPUT_PULLUP | MODE3 */
-			AM33XX_IOPAD(0x84c, PIN_INPUT_PULLUP | MUX_MODE3)	/* gpmc_a3.mmc2_dat2, INPUT_PULLUP | MODE3 */
-			AM33XX_IOPAD(0x878, PIN_INPUT_PULLUP | MUX_MODE3)	/* gpmc_ben1.mmc2_dat3, INPUT_PULLUP | MODE3 */
-			AM33XX_IOPAD(0x888, PIN_INPUT_PULLUP | MUX_MODE3)	/* gpmc_csn3.mmc2_cmd, INPUT_PULLUP | MODE3 */
-			AM33XX_IOPAD(0x88c, PIN_INPUT_PULLUP | MUX_MODE3)	/* gpmc_clk.mmc2_clk, INPUT_PULLUP | MODE3 */
-		>;
-	};
-
-	wlan_pins: pinmux_wlan_pins {
-		pinctrl-single,pins = <
-			AM33XX_IOPAD(0x840, PIN_OUTPUT_PULLDOWN | MUX_MODE7)	/* gpmc_a0.gpio1_16 */
-			AM33XX_IOPAD(0x99c, PIN_INPUT | MUX_MODE7)		/* mcasp0_ahclkr.gpio3_17 */
-			AM33XX_IOPAD(0x9ac, PIN_OUTPUT_PULLDOWN | MUX_MODE7)	/* mcasp0_ahclkx.gpio3_21 */
-		>;
-	};
-
-	
-
 	mcasp1_pins: mcasp1_pins {
 		pinctrl-single,pins = <
 			AM33XX_IOPAD(0x90c, PIN_INPUT_PULLDOWN | MUX_MODE4) /* mii1_crs.mcasp1_aclkx */
@@ -219,19 +152,13 @@
 		>;
 	};
 
-	mcasp1_pins_sleep: mcasp1_pins_sleep {
+	am335x_evm_audio_pins: am335x_evm_audio_pins {
 		pinctrl-single,pins = <
-			AM33XX_IOPAD(0x90c, PIN_INPUT_PULLDOWN | MUX_MODE7)
-			AM33XX_IOPAD(0x910, PIN_INPUT_PULLDOWN | MUX_MODE7)
-			AM33XX_IOPAD(0x908, PIN_INPUT_PULLDOWN | MUX_MODE7)
-			AM33XX_IOPAD(0x944, PIN_INPUT_PULLDOWN | MUX_MODE7)
-		>;
-	};
-
-	dcan1_pins_default: dcan1_pins_default {
-		pinctrl-single,pins = <
-			AM33XX_IOPAD(0x968, PIN_OUTPUT | MUX_MODE2) /* uart0_ctsn.d_can1_tx */
-			AM33XX_IOPAD(0x96c, PIN_INPUT_PULLDOWN | MUX_MODE2) /* uart0_rtsn.d_can1_rx */
+		  0x190 (PIN_OUTPUT_PULLDOWN | MUX_MODE0) /* mcasp0_aclkx */
+		  0x194 (PIN_INPUT_PULLDOWN | MUX_MODE0)  /* mcasp0_fsx */
+		  0x198 (PIN_OUTPUT_PULLDOWN | MUX_MODE0) /* mcasp0_axr0 */
+		  0x1A8 (PIN_INPUT_PULLDOWN | MUX_MODE0)  /* mcasp0_axr1 */
+		  0x1AC (PIN_INPUT_PULLDOWN | MUX_MODE0)  /* mcasp0_ahclkx */
 		>;
 	};
 };
@@ -243,12 +170,6 @@
 	status = "okay";
 };
 
-&uart1 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart1_pins>;
-
-	status = "okay";
-};
 
 &i2c0 {
 	pinctrl-names = "default";
@@ -262,57 +183,13 @@
 	};
 };
 
-//&usb {
-//	status = "okay";
-//};
-
-//&usb_ctrl_mod {
-//	status = "okay";
-//};
-
-//&usb0_phy {
-//	status = "okay";
-//};
-
-//&usb1_phy {
-//	status = "okay";
-//};
-
-//&usb0 {
-//	status = "okay";
-//};
-
-//&usb1 {
-//	status = "okay";
-//	dr_mode = "host";
-//};
-
 &cppi41dma  {
 	status = "okay";
 };
 
-//&i2c1 {
-//	pinctrl-names = "default";
-//	pinctrl-0 = <&i2c1_pins>;
-//
-//	status = "okay";
-//	clock-frequency = <100000>;
-//};
-
-
 &elm {
 	status = "okay";
 };
-
-//&epwmss0 {
-//	status = "okay";
-//
-//	ecap0: ecap@48300100 {
-//		status = "okay";
-//		pinctrl-names = "default";
-//		pinctrl-0 = <&ecap0_pins>;
-//	};
-//};
 
 &gpmc {
 	status = "okay";
@@ -357,68 +234,31 @@
 		#address-cells = <1>;
 		#size-cells = <1>;
 		partition@0 {
-			label = "NAND.SPL";
-			reg = <0x00000000 0x000020000>;
+			label = "NAND.kernel";
+			reg = <0x00000000 0x00800000>;
 		};
 		partition@1 {
-			label = "NAND.SPL.backup1";
-			reg = <0x00020000 0x00020000>;
-		};
-		partition@2 {
-			label = "NAND.SPL.backup2";
-			reg = <0x00040000 0x00020000>;
-		};
-		partition@3 {
-			label = "NAND.SPL.backup3";
-			reg = <0x00060000 0x00020000>;
-		};
-		partition@4 {
-			label = "NAND.u-boot-spl-os";
-			reg = <0x00080000 0x00040000>;
-		};
-		partition@5 {
-			label = "NAND.u-boot";
-			reg = <0x000C0000 0x00100000>;
-		};
-		partition@6 {
-			label = "NAND.u-boot-env";
-			reg = <0x001C0000 0x00020000>;
-		};
-		partition@7 {
-			label = "NAND.u-boot-env.backup1";
-			reg = <0x001E0000 0x00020000>;
-		};
-		partition@8 {
-			label = "NAND.kernel";
-			reg = <0x00200000 0x00800000>;
-		};
-		partition@9 {
 			label = "NAND.file-system";
-			reg = <0x00A00000 0x0F600000>;
+			reg = <0x00800000 0x0F800000>;
 		};
 	};
 };
 
+&mcasp0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&am335x_evm_audio_pins>;
 
+	status = "okay";
 
-//&mcasp1 {
-//	#sound-dai-cells = <0>;
-//	pinctrl-names = "default", "sleep";
-//	pinctrl-0 = <&mcasp1_pins>;
-//	pinctrl-1 = <&mcasp1_pins_sleep>;
-//
-//	status = "okay";
-//
-//	op-mode = <0>;          /* MCASP_IIS_MODE */
-//	tdm-slots = <2>;
-//	/* 4 serializers */
-//	serial-dir = <  /* 0: INACTIVE, 1: TX, 2: RX */
-//		0 0 1 2
-//	>;
-//	tx-num-evt = <32>;
-//	rx-num-evt = <32>;
-//};
-
+	op-mode = <0>;          /* MCASP_IIS_MODE */
+	tdm-slots = <2>;
+	/* 4 serializers */
+	serial-dir = <  /* 0: INACTIVE, 1: TX, 2: RX */
+			0 0 1 2
+			>;
+	tx-num-evt = <32>;
+	rx-num-evt = <32>;
+};
 
 &mac {
 	pinctrl-names = "default", "sleep";
@@ -432,64 +272,15 @@
 	pinctrl-0 = <&davinci_mdio_default>;
 	pinctrl-1 = <&davinci_mdio_sleep>;
 	status = "okay";
+
+	ethphy0: ethernet-phy@0 {
+		reg = <0>;
+	};
 };
 
 &cpsw_emac0 {
 	phy_id = <&davinci_mdio>, <0>;
 	phy-mode = "rgmii-txid";
-};
-
-//&cpsw_emac1 {
-//	phy_id = <&davinci_mdio>, <1>;
-//	phy-mode = "rgmii-txid";
-//};
-
-&tscadc {
-	status = "okay";
-	tsc {
-		ti,wires = <4>;
-		ti,x-plate-resistance = <200>;
-		ti,coordinate-readouts = <5>;
-		ti,wire-config = <0x00 0x11 0x22 0x33>;
-		ti,charge-delay = <0x400>;
-	};
-
-	adc {
-		ti,adc-channels = <4 5 6 7>;
-	};
-};
-
-&mmc1 {
-	status = "okay";
-	bus-width = <4>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&mmc1_pins>;
-	cd-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;
-};
-
-&mmc3 {
-	/* these are on the crossbar and are outlined in the
-	   xbar-event-map element */
-	dmas = <&edma_xbar 12 0 1
-		&edma_xbar 13 0 2>;
-	dma-names = "tx", "rx";
-	status = "okay";
-	bus-width = <4>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&mmc3_pins &wlan_pins>;
-	ti,non-removable;
-	ti,needs-special-hs-handling;
-	cap-power-off-card;
-	keep-power-in-suspend;
-
-	#address-cells = <1>;
-	#size-cells = <0>;
-	wlcore: wlcore@0 {
-		compatible = "ti,wl1835";
-		reg = <2>;
-		interrupt-parent = <&gpio3>;
-		interrupts = <17 IRQ_TYPE_EDGE_RISING>;
-	};
 };
 
 &sham {
@@ -500,23 +291,10 @@
 	status = "okay";
 };
 
-//&dcan1 {
-//	status = "disabled";	/* Enable only if Profile 1 is selected */
-//	pinctrl-names = "default";
-//	pinctrl-0 = <&dcan1_pins_default>;
-//};
 
 &rtc {
 	clocks = <&clk_32768_ck>, <&l4_per_clkctrl AM3_CLKDIV32K_CLKCTRL 0>;
 	clock-names = "ext-clk", "int-clk";
-};
-
-//&wkup_m3_ipc {
-//	ti,scale-data-fw = "am335x-evm-scale-data.bin";
-//};
-
-&sgx {
-	status = "okay";
 };
 
 &pruss_soc_bus {
