@@ -143,15 +143,6 @@
 		>;
 	};
 
-	mcasp1_pins: mcasp1_pins {
-		pinctrl-single,pins = <
-			AM33XX_IOPAD(0x90c, PIN_INPUT_PULLDOWN | MUX_MODE4) /* mii1_crs.mcasp1_aclkx */
-			AM33XX_IOPAD(0x910, PIN_INPUT_PULLDOWN | MUX_MODE4) /* mii1_rxerr.mcasp1_fsx */
-			AM33XX_IOPAD(0x908, PIN_OUTPUT_PULLDOWN | MUX_MODE4) /* mii1_col.mcasp1_axr2 */
-			AM33XX_IOPAD(0x944, PIN_INPUT_PULLDOWN | MUX_MODE4) /* rmii1_ref_clk.mcasp1_axr3 */
-		>;
-	};
-
 	am335x_evm_audio_pins: am335x_evm_audio_pins {
 		pinctrl-single,pins = <
 		  0x190 (PIN_OUTPUT_PULLDOWN | MUX_MODE0) /* mcasp0_aclkx */
@@ -177,10 +168,6 @@
 
 	status = "okay";
 	clock-frequency = <400000>;
-
-	tps: tps@2d {
-		reg = <0x2d>;
-	};
 };
 
 &cppi41dma  {
